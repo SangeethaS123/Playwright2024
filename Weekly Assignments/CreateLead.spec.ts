@@ -1,4 +1,5 @@
 import { chromium, expect, test } from "@playwright/test";
+import { log } from "console";
 
 test(`CreateLead in LeafTaps`, async ({ page }) => {
 
@@ -34,21 +35,33 @@ test(`CreateLead in LeafTaps`, async ({ page }) => {
    
 
     await page.waitForTimeout(5000);
-    //const cName=await page.locator('#createLeadForm_companyName').innerText();
-    //Verify the company name, first name, last name and the status 
-   // await expect(page.locator('#createLeadForm_companyName')).toHaveText('TCS'); 
+
 
     await page.click('.smallSubmit');
     await page.waitForTimeout(5000);
     
-    //Get the page title
-    const title =await page.title();
-    console.log(`Title of page is : ${title}`);
-    //await expect(page).toHaveTitle(/View Lead/);
+    //Assertions
+    //Verify company Name,,FirstName, LastName
+   
+    const cName=(await page.locator('#viewLead_companyName_sp').innerText()).split(" ");
+    expect(cName[0]).toContain("TCS");
+    console.log(cName[0]);
+
     
+    const fName = await page.locator("#viewLead_firstName_sp").innerText();
+    console.log(fName);
+    expect(fName).toMatch("Sangee");
+    
+    
+    const LName = await page.locator("#viewLead_lastName_sp").innerText();
+    console.log(LName);
+    await(expect(page.locator("#viewLead_lastName_sp"))).toHaveText("Selva");
 
-
-
+    
+    //Get the page title
+    console.log(`Title of page is : ${await page.title()}`);
+    
+    
 
 
 
